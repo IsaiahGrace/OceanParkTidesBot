@@ -31,7 +31,7 @@ ocean_park = astral.LocationInfo(
     latitude=43.5,
     longitude=-70.383)
 
-sun_times = sun(ocean_park.observer, date=today)
+sun_times = sun(ocean_park.observer, date=today, tzinfo=ocean_park.timezone)
 
 timezone = pytz.timezone("US/Eastern")
 
@@ -82,17 +82,17 @@ if not notify_times:
 
 # Use at to schedule the notification events for the right times today
 for notify in notify_times:
-    command = 'at ' + notify.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/low-tide-notify.sh'
+    command = 'at ' + notify.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/low-tide-notify.sh 2>/dev/null'
     print(command)
     os.system(command)
 
 # Use at to schedule the daily morning report to dad
-morning_info = sun_times['sunrise'] + datetime.timedelta(hours=1)
+morning_info = sun_times['dawn'] + datetime.timedelta(hours=1)
 
 # Write the tide data to a file so other scripts can access the info
 with open('logs/tides-today','w') as f:
-    json.dump(times,f)
+    json.dump(times,f),
 
-command = 'at ' + morning_info.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/morning-info.sh'
+command = 'at ' + morning_info.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/morning-info.sh 2>/dev/null'
 print(command)
 os.system(command)
