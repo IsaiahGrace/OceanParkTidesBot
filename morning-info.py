@@ -87,8 +87,8 @@ if today[1] == "***REMOVED***" and today[2] == "20":
 
 
 message = message + '\n' + '\n'.join(tide_times)
-#bot = telegram.Bot(token=get_token())
-#bot.sendMessage(chat_id=get_chat_id(), text=message)
+bot = telegram.Bot(token=get_token())
+bot.sendMessage(chat_id=get_chat_id(), text=message)
 print(message)
 
 

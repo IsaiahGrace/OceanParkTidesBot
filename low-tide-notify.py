@@ -31,6 +31,6 @@ messages = ["The tide will be low in 15 minutes! Great time to go for a walk",
 
 message = random.choice(messages)
 
-#bot = telegram.Bot(token=get_token())
-#bot.sendMessage(chat_id=get_chat_id(), text=message)
+bot = telegram.Bot(token=get_token())
+bot.sendMessage(chat_id=get_chat_id(), text=message)
 print(message)
