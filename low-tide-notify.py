@@ -21,11 +21,12 @@ print(time.ctime())
 messages = ["The tide will be low in 15 minutes! Great time to go for a walk",
             "Low tide's in 15 mins!",
             "Take a break and go for a walk? Low tide is soon.",
-            "It's time for a walk. The tide is low.",
+            "It's time for a walk. The tide will be low soon.",
             "The tide is *low* but I'm holdin' on\nI'm gonna be your number one",
             "Wade in the water\nWade in the water\nWade in the water, children\nGod is gonna trouble these waters",
             "Low tide in 15 minutes. Go check out the Guggenheim rocks!",
             "Perfect time for a walk! The tide is low right now!",
+            "Take a new boardwalk to the beach today.",
             ]
 
 message = random.choice(messages)
