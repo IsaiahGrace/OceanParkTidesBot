@@ -17,6 +17,12 @@ def get_chat_id():
         chatID = f.readline().strip()
     return chatID
 
+# Read the birthdays from a file NOT stored in the git repo
+def get_birthdays():
+    with open("/home/isaiah/.config/telegram/birthdays","r") as f:
+        birthdays = json.load(f)
+    return birthdays
+
 print(time.ctime())
 
 messages = ["Good morning! Here are the low tides today.",
@@ -55,34 +61,31 @@ message = random.choice(messages)
 
 # Give some special messges on special days:
 today = time.ctime().split()
-if today[1] == "***REMOVED***" and today[2] == "***REMOVED***":
-    message = "Happy Birthday ***REMOVED***! I hope you enjoy a nice walk on the beach!"
-if today[1] == "***REMOVED***" and today[2] == "***REMOVED***":
-    message = "Happy Birthday ***REMOVED***! I hope you enjoy a nice walk on the beach!"
-if today[1] == "***REMOVED***" and today[2] == "***REMOVED***":
-    message = "Happy Birthday ***REMOVED***! I hope you enjoy a nice walk on the beach!"
-if today[1] == "***REMOVED***" and today[2] == "***REMOVED***":
-    message = "Happy Birthday ***REMOVED***! I hope you enjoy a nice walk on the beach!"
-if today[1] == "***REMOVED***" and today[2] == "***REMOVED***":
-    message = "Happy Birthday to me! I hope I enjoy a nice walk on the beach!"
-if today[1] == "***REMOVED***" and today[2] == "***REMOVED***":
-    message = "Happy Birthday ***REMOVED***! I hope you enjoy a nice walk on the beach! (make sure to take some photos!)"
-if today[1] == "***REMOVED***" and today[2] == "***REMOVED***":
-    message = "Happy Birthday ***REMOVED***! I hope you enjoy a nice walk on the beach!"
-if today[1] == "***REMOVED***" and today[2] == "***REMOVED***":
-    message = "Happy Birthday ***REMOVED***! I hope you enjoy a nice walk on the beach!"
+
+today = {'day': today[2],
+         'month': today[1],
+         'year': today[***REMOVED***]}
+
+# Everything here is to avoid writing names and birthdays in the GitHub code
+people = get_birthdays()
+for person in people:
+    if today['day'] == person['day'] and today['month'] == person['month']:
+        if person['name'] == 'me':
+            message = 'Happy Birthday to me! I hope I enjoy a nice walk on the beach!'
+        else:
+            message = "Happy Birthday " + person['name'] + "! I hope you enjoy a nice walk on the beach!"
 
 # This is a god-awful way to tell if it's thanksgiving. But I think it is hilarious.
 # The algorithm comes from here: https://codegolf.stackexchange.com/a/6***REMOVED***803
-if today[1] == "***REMOVED***" and today[2] == (lambda x:str(round(28.11-(x-2+x/***REMOVED***-x/***REMOVED***0+x/***REMOVED***00)%7)))(int(today[***REMOVED***])):
+if today['month'] == "***REMOVED***" and today['day'] == (lambda x:str(round(28.11-(x-2+x/***REMOVED***-x/***REMOVED***0+x/***REMOVED***00)%7)))(int(today['year'])):
     message = "It's Thanksgiving! ***REMOVED***be save the walk for after the meal today."
-if today[1] == "***REMOVED***" and today[2] == "2***REMOVED***":
+if today['month'] == "***REMOVED***" and today['day'] == "2***REMOVED***":
     message = "Christmas Eve; The days are short, but tomorow birngs new hope!"
-if today[1] == "***REMOVED***" and today[2] == "25":
+if today['month'] == "***REMOVED***" and today['day'] == "25":
     message = "Merry Christmas!"
-if today[1] == "***REMOVED***" and today[2] == "26":
+if today['month'] == "***REMOVED***" and today['day'] == "26":
     message = "Boxing day; grab a leftover turkey sandwich and stretch your legs on the beach!"
-if today[1] == "***REMOVED***" and today[2] == "20":
+if today['month'] == "***REMOVED***" and today['day'] == "20":
     message = "Today is the first day of sping (probably, turns out this is hard to predict...)"
 
 
