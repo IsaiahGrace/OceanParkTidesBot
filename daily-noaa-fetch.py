@@ -74,17 +74,6 @@ for time in times:
     # We want to notify Dad BEFORE low tide, how long? 15 Min?    
     notify_times.append(notify_time - datetime.timedelta(minutes=15))
 
-    
-# If, for some reason there is no low tide during daylight hours, exit
-if not notify_times:
-    print("No low tides in the future today")
-    exit()
-
-# Use at to schedule the notification events for the right times today
-for notify in notify_times:
-    command = 'at ' + notify.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/low-tide-notify.sh 2>/dev/null'
-    print(command)
-    os.system(command)
 
 # Use at to schedule the daily morning report to dad
 morning_info = sun_times['dawn'] + datetime.timedelta(hours=1)
@@ -96,3 +85,15 @@ with open('logs/tides-today','w') as f:
 command = 'at ' + morning_info.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/morning-info.sh 2>/dev/null'
 print(command)
 os.system(command)
+
+# If, for some reason there is no low tide during daylight hours, exit.
+if not notify_times:
+    print("No low tides in the future daylight hours today")
+    exit()
+
+# Use at to schedule the notification events for the right times today
+for notify in notify_times:
+    command = 'at ' + notify.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/low-tide-notify.sh 2>/dev/null'
+    print(command)
+    os.system(command)
+
