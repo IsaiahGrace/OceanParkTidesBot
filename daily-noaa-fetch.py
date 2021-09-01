@@ -71,8 +71,8 @@ for time in times:
         print("low tide in the past!")
         continue
 
-    # We want to notify Dad BEFORE low tide, how long? 15 Min?    
-    notify_times.append(notify_time - datetime.timedelta(minutes=15))
+    # We want to notify Dad 60 minutes BEFORE low tide    
+    notify_times.append(notify_time - datetime.timedelta(minutes=60))
 
 
 # Use at to schedule the daily morning report to dad
