@@ -91,6 +91,7 @@ messages = ["The tide will be low an hour! Great time to go for a walk",
             "Just as the wave cannot exist for itself, but is ever a part of the heaving surface of the ocean, so must I never live my life for itself, but always in the experience which is going on around me.\n    – Albert Schweitzer",
             "The sea, once it casts its spell, holds one in its net of wonder forever.\n    – Jacques Yves Cousteau",
             "The heart of man is very much like the sea, it has its storms, it has its tides and in its depths, it has its pearls too.\n    – Vincent van Gogh",
+            "Oh God, your sea is so great, and my boat is so small.\n    - Breton fisherman's prayer",
            ]
 
 message = random.choice(messages)
