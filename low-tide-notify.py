@@ -92,6 +92,10 @@ messages = ["The tide will be low an hour! Great time to go for a walk",
             "The sea, once it casts its spell, holds one in its net of wonder forever.\n    – Jacques Yves Cousteau",
             "The heart of man is very much like the sea, it has its storms, it has its tides and in its depths, it has its pearls too.\n    – Vincent van Gogh",
             "Oh God, your sea is so great, and my boat is so small.\n    - Breton fisherman's prayer",
+            "We are tied to the ocean. And when we go back to the sea, whether it is to sail or to watch - we are going back from whence we came.\n    - John F. Kennedy",
+            "Ocean is more ancient than the mountains and freighted with the memories and the dreams of Time.\n    - H. P. Lovecraft",
+            "How inappropriate to call this planet Earth when it is clearly Ocean.\n    - Arthur C. Clarke",
+            "The three great elemental sounds in nature are the sound of rain, the sound of wind in a primeval wood, and the sound of outer ocean on a beach.\n    - Henry Beston",
            ]
 
 message = random.choice(messages)
