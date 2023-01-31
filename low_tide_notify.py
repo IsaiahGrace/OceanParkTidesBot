@@ -7,6 +7,7 @@ The message acts as a reminder to go for a walk on the beach. This script is typ
 import time
 import telegram
 import random
+import asyncio
 import fetch_secrets as secrets
 
 
@@ -90,7 +91,7 @@ messages = ["The tide will be low an hour! Great time to go for a walk",
             "The three great elemental sounds in nature are the sound of rain, the sound of wind in a primeval wood, and the sound of outer ocean on a beach.\n    - Henry Beston",
             ]
 
-if __name__ == "__main__":
+async def main():
     print(time.ctime())
 
     message = random.choice(messages)
@@ -98,5 +99,9 @@ if __name__ == "__main__":
     chat_id = secrets.get_chat_id()
 
     bot = telegram.Bot(token=token)
-    bot.sendMessage(chat_id=chat_id, text=message)
+    await bot.sendMessage(chat_id=chat_id, text=message)
     print(message)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
