@@ -1,22 +1,14 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
+"""
+This script gets scheduled to run by daily_noaa_fetch.py and simply selects a random message and sends it to the Telegram chat.
+The message acts as a reminder to go for a walk on the beach. This script is typically scheduled to run one hour before low tide, to give plently of time to finish up and get out there!
+"""
 
 import time
 import telegram
 import random
+import fetch_secrets as secrets
 
-# Read the TOKEN in from a file NOT stored in the git repository
-def get_token():
-    with open("/home/isaiah/.config/telegram/OceanParkBotToken","r") as f:
-        token = f.readline().strip()
-    return token
-
-# Read the Chat ID from a file NOT stored in the git repository
-def get_chat_id():
-    with open("/home/isaiah/.config/telegram/chatID","r") as f:
-        chatID = f.readline().strip()
-    return chatID
-
-print(time.ctime())
 
 messages = ["The tide will be low an hour! Great time to go for a walk",
             "Low tide's in one hour!",
@@ -96,10 +88,15 @@ messages = ["The tide will be low an hour! Great time to go for a walk",
             "Ocean is more ancient than the mountains and freighted with the memories and the dreams of Time.\n    - H. P. Lovecraft",
             "How inappropriate to call this planet Earth when it is clearly Ocean.\n    - Arthur C. Clarke",
             "The three great elemental sounds in nature are the sound of rain, the sound of wind in a primeval wood, and the sound of outer ocean on a beach.\n    - Henry Beston",
-           ]
+            ]
 
-message = random.choice(messages)
+if __name__ == "__main__":
+    print(time.ctime())
 
-bot = telegram.Bot(token=get_token())
-bot.sendMessage(chat_id=get_chat_id(), text=message)
-print(message)
+    message = random.choice(messages)
+    token = secrets.get_token()
+    chat_id = secrets.get_chat_id()
+
+    bot = telegram.Bot(token=token)
+    bot.sendMessage(chat_id=chat_id, text=message)
+    print(message)

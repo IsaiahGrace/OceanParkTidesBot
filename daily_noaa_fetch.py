@@ -1,4 +1,9 @@
 #! /usr/bin/env python
+"""
+Runs daily sometime before dawn, but after NOAA has updated their data for "today".
+Downloads low tide times from NOAA and calculates daylight hours.
+Uses the unix "at" command to schedule a morning summary message for one hour after sunrise and messages for one hour before all low tide times that occur during daylight hours.
+"""
 
 import json
 import requests
@@ -7,7 +12,7 @@ import pytz
 import astral
 from astral.sun import sun
 import os
-
+import sys
 
 today = datetime.datetime.today()
 print("Tide data for:", today.ctime())
@@ -17,17 +22,18 @@ basic_info = "https://tidesandcurrents.noaa.gov/api/datagetter?date=today&produc
 
 adv_info = "https://tidesandcurrents.noaa.gov/api/datagetter?date=today&product=predictions&datum=mllw&format=json&units=metric&time_zone=lst_ldt&station="
 
-stationID = "8418557"
+station_id = "8418557"
 
 # Get the data from NOAA
-times = json.loads(requests.get(basic_info + stationID).text)['predictions']
+noaa_raw_data = requests.get(basic_info + station_id, timeout=60)
+times = json.loads(noaa_raw_data.text)["predictions"]
 
 # Calculate the time of dawn and dusk
-# Note: only the timezone and lat+lon actually matter. The names are just for fun
+# Note: Only the timezone and lat+lon actually matter. The names are just for fun
 ocean_park = astral.LocationInfo(
-    name='Ocean Park',
-    region='Maine',
-    timezone='US/Eastern',
+    name="Ocean Park",
+    region="Maine",
+    timezone="US/Eastern",
     latitude=43.5,
     longitude=-70.383)
 
@@ -38,19 +44,19 @@ timezone = pytz.timezone("US/Eastern")
 # Schedule the execution of the other scripts
 notify_times = []
 for time in times:
-    if (time['type'] == 'H'):
+    if time["type"] == "H":
         continue
 
     # I love Python
-    day, time = time['t'].split()
-    year, month, day = [int(x) for x in day.split('-')]
-    hour, minute = [int(x) for x in time.split(':')]
+    day, time = time["t"].split()
+    year, month, day = [int(x) for x in day.split("-")]
+    hour, minute = [int(x) for x in time.split(":")]
 
-    # If we ask for predictions after the last low/high of the day, noaa will give us tomorrow's data
+    # If we ask for predictions after the last low/high of the day, noaa will give us tomorrow"s data
     if day > today.day:
         print("fetched tides for tomorrow, oops")
         continue
-        
+
     notify_time = datetime.datetime(
         year,
         month,
@@ -58,9 +64,9 @@ for time in times:
         hour,
         minute,
         tzinfo=timezone)
-        
+
     # Now, filter out the low tides that occur before dawn and after dusk
-    if (sun_times['dawn'] < notify_time < sun_times['dusk']):
+    if sun_times["dawn"] < notify_time < sun_times["dusk"]:
         print("low tide during sunlight!", notify_time)
     else:
         print("low tide during darkness.", notify_time)
@@ -71,29 +77,30 @@ for time in times:
         print("low tide in the past!")
         continue
 
-    # We want to notify Dad 60 minutes BEFORE low tide    
+    # We want to notify Dad 60 minutes BEFORE low tide
     notify_times.append(notify_time - datetime.timedelta(minutes=60))
 
 
 # Use at to schedule the daily morning report to dad
-morning_info = sun_times['dawn'] + datetime.timedelta(hours=1)
+morning_info = sun_times["dawn"] + datetime.timedelta(hours=1)
 
 # Write the tide data to a file so other scripts can access the info
-with open('logs/tides-today','w') as f:
-    json.dump(times,f),
+with open("logs/tides_today.json", "w", encoding="utf-8") as f:
+    json.dump(times, f)
 
-command = 'at ' + morning_info.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/morning-info.sh 2>/dev/null'
+# Schedule a morning message for one hour after dawn to preview low tide times for today
+command = "at " + morning_info.time().isoformat("minutes") + " -f /home/isaiah/OceanParkTideBot/morning_info.sh 2>/dev/null"
 print(command)
 os.system(command)
 
 # If, for some reason there is no low tide during daylight hours, exit.
 if not notify_times:
     print("No low tides in the future daylight hours today")
-    exit()
+    sys.exit()
 
 # Use at to schedule the notification events for the right times today
 for notify in notify_times:
-    command = 'at ' + notify.time().isoformat('minutes') + ' -f /home/isaiah/OceanParkTideBot/low-tide-notify.sh 2>/dev/null'
+    command = "at " + notify.time().isoformat("minutes") + " -f /home/isaiah/OceanParkTideBot/low_tide_notify.sh 2>/dev/null"
     print(command)
     os.system(command)
 
