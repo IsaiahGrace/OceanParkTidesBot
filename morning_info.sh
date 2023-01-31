@@ -1,4 +1,5 @@
 #! /bin/sh
 
-cd /home/isaiah/OceanParkTideBot
-python morning-info.py 1&>> logs/morning-info
+pushd /home/isaiah/OceanParkTideBot
+python3 morning_info.py 1&>> logs/morning-info
+popd
