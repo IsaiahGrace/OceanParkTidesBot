@@ -3,7 +3,7 @@ set -e
 
 if [[ $(pwd) != "/home/isaiah/OceanParkTidesBot" ]]; then
 	echo "This script needs to be run from /home/isaiah/OceanParkTidesBot"
-	exho "Do some hacking in here if you're not Isaiah."
+	echo "Do some hacking in here if you're not Isaiah."
 	exit 1
 fi
 
