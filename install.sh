@@ -13,10 +13,10 @@ if [[ $(whoami) != "root" ]]; then
 fi
 
 echo "Creating symlinks in /etc/systemd/system for systemd services and timers."
-ln -sf /etc/systemd/system/OPTB_daily_noaa_fetch.timer OPTB_daily_noaa_fetch.timer
-ln -sf /etc/systemd/system/OPTB_daily_noaa_fetch.service OPTB_daily_noaa_fetch.service
-ln -sf /etc/systemd/system/OPTB_morning_info.service OPTB_morning_info.service
-ln -sf /etc/systemd/system/OPTB_low_tide_notify.service OPTB_low_tide_notify.service
+ln -sf OPTB_daily_noaa_fetch.timer /etc/systemd/system/OPTB_daily_noaa_fetch.timer
+ln -sf OPTB_daily_noaa_fetch.service /etc/systemd/system/OPTB_daily_noaa_fetch.service
+ln -sf OPTB_morning_info.service /etc/systemd/system/OPTB_morning_info.service
+ln -sf OPTB_low_tide_notify.service /etc/systemd/system/OPTB_low_tide_notify.service
 
 echo "systemctl daemon-reload"
 systemctl daemon-reload
