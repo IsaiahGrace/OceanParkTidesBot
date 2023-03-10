@@ -78,7 +78,7 @@ for time in times:
         continue
 
     # We want to notify Dad 60 minutes BEFORE low tide
-    notify_times.append(notify_time - datetime.timedelta(minutes=60))
+    notify_times.append(str(int((notify_time - datetime.timedelta(minutes=60)).timestamp())))
 
 
 # Use at to schedule the daily morning report to dad
@@ -91,15 +91,12 @@ with open("/tmp/tides_today.json", "w", encoding="utf-8") as f:
 # Schedule a morning message for one hour after dawn to preview low tide times for today
 command = "systemd-run --on-calendar=@" + str(int(morning_info.timestamp())) + " --unit OPTB_morning_info.service"
 print(command)
-os.system(command)
+#os.system(command)
 
-# If, for some reason there is no low tide during daylight hours, exit.
-if not notify_times:
-    print("No low tides in the future daylight hours today")
-    sys.exit()
-
-# Use at to schedule the notification events for the right times today
-for notify in notify_times:
-    command = "systemd-run --on-calendar=@" + str(int(notify.timestamp())) + " --unit OPTB_low_tide_notify.service"
+if notify_times:
+    command = "systemd-run --on-calendar=@" + ',@'.join(notify_times) + " --unit OPTB_low_tide_notify.service"
     print(command)
-    os.system(command)
+    #os.system(command)
+else:
+    print("No low tides in the future daylight hours today")
+
