@@ -91,12 +91,12 @@ with open("/tmp/tides_today.json", "w", encoding="utf-8") as f:
 # Schedule a morning message for one hour after dawn to preview low tide times for today
 command = "systemd-run --on-calendar=@" + str(int(morning_info.timestamp())) + " --unit OPTB_morning_info.service"
 print(command)
-#os.system(command)
+os.system(command)
 
 if notify_times:
     command = "systemd-run --on-calendar=@" + ',@'.join(notify_times) + " --unit OPTB_low_tide_notify.service"
     print(command)
-    #os.system(command)
+    os.system(command)
 else:
     print("No low tides in the future daylight hours today")
 
