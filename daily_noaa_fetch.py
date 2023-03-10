@@ -29,7 +29,7 @@ noaa_raw_data = requests.get(basic_info + station_id, timeout=60)
 times = json.loads(noaa_raw_data.text)["predictions"]
 
 # Calculate the time of dawn and dusk
-# Note: Only the timezone and lat+lon actually matter. The names are just for fun
+# Note: Only the timezone and lat+lon actually matter. The names are just for fun.
 ocean_park = astral.LocationInfo(
     name="Ocean Park",
     region="Maine",
@@ -85,13 +85,13 @@ for time in times:
 morning_info = sun_times["dawn"] + datetime.timedelta(hours=1)
 
 # Write the tide data to a file so other scripts can access the info
-with open("logs/tides_today.json", "w", encoding="utf-8") as f:
+with open("/tmp/tides_today.json", "w", encoding="utf-8") as f:
     json.dump(times, f)
 
 # Schedule a morning message for one hour after dawn to preview low tide times for today
-command = "at " + morning_info.time().isoformat("minutes") + " -f /home/isaiah/OceanParkTideBot/morning_info.sh 2>/dev/null"
+command = "systemd-run --on-calendar=@" + morning_info.time() + " --unit OPTB_morning_info.service"
 print(command)
-os.system(command)
+#os.system(command)
 
 # If, for some reason there is no low tide during daylight hours, exit.
 if not notify_times:
@@ -100,7 +100,6 @@ if not notify_times:
 
 # Use at to schedule the notification events for the right times today
 for notify in notify_times:
-    command = "at " + notify.time().isoformat("minutes") + " -f /home/isaiah/OceanParkTideBot/low_tide_notify.sh 2>/dev/null"
+    command = "systemd-run --on-calendar=@" + notify.time() + " --unit OPTB_low_tide_notify.service"
     print(command)
-    os.system(command)
-
+    #os.system(command)

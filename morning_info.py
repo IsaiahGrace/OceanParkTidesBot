@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 """
 This script is scheduled to run by daily_noaa_fetch.py every morning one hour after dawn.
-This publishes a message to the Telegram chat previewing the low tide times, as defined in the file logs/tides_today.json
+This publishes a message to the Telegram chat previewing the low tide times, as defined in the file /tmp/tides_today.json
 """
 
 import time
@@ -67,7 +67,7 @@ async def main():
     print(time.ctime())
 
     # Load today's tide times from the json file. The daily_noaa_fetch.py script updates this file daily at 3am.
-    with open("logs/tides_today.json", "r", encoding="utf-8") as f:
+    with open("/tmp/tides_today.json", "r", encoding="utf-8") as f:
         tides = json.load(f)
 
     tide_times = []
