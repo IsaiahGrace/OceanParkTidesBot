@@ -1,0 +1,7 @@
+[Unit]
+Description=Ocean Park Tides Bot daily NOAA data fetch.
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/isaiah/OceanParkTidesBot/daily_noaa_fetch.py

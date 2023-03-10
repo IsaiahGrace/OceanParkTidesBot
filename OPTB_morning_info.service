@@ -1,0 +1,8 @@
+[Unit]
+Description=Ocean Park Tides Bot morning info.
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=isaiah
+ExecStart=/home/isaiah/OceanParkTidesBot/morning_info.py
