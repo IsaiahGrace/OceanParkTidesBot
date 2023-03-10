@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 """
 Fetches secrets not suitable to publish to GitHub.
 * Telegram API token used to authenticat the bot

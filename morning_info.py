@@ -4,13 +4,13 @@ This script is scheduled to run by daily_noaa_fetch.py every morning one hour af
 This publishes a message to the Telegram chat previewing the low tide times, as defined in the file /tmp/tides_today.json
 """
 
-import time
-import telegram
-import random
-import json
 import asyncio
 import fetch_secrets as secrets
 import inspect
+import json
+import random
+import telegram
+import time
 
 
 messages = ["Good morning! Here are the low tides today.",

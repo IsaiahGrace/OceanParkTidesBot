@@ -5,13 +5,13 @@ Downloads low tide times from NOAA and calculates daylight hours.
 Uses the unix "at" command to schedule a morning summary message for one hour after sunrise and messages for one hour before all low tide times that occur during daylight hours.
 """
 
-import json
-import requests
-import datetime
-import pytz
-import astral
 from astral.sun import sun
+import astral
+import datetime
+import json
 import os
+import pytz
+import requests
 import sys
 
 
@@ -89,9 +89,9 @@ with open("/tmp/tides_today.json", "w", encoding="utf-8") as f:
     json.dump(times, f)
 
 # Schedule a morning message for one hour after dawn to preview low tide times for today
-command = "systemd-run --on-calendar=@" + morning_info.time() + " --unit OPTB_morning_info.service"
+command = "systemd-run --on-calendar=@" + str(int(morning_info.timestamp())) + " --unit OPTB_morning_info.service"
 print(command)
-#os.system(command)
+os.system(command)
 
 # If, for some reason there is no low tide during daylight hours, exit.
 if not notify_times:
@@ -100,6 +100,6 @@ if not notify_times:
 
 # Use at to schedule the notification events for the right times today
 for notify in notify_times:
-    command = "systemd-run --on-calendar=@" + notify.time() + " --unit OPTB_low_tide_notify.service"
+    command = "systemd-run --on-calendar=@" + str(int(notify.timestamp())) + " --unit OPTB_low_tide_notify.service"
     print(command)
-    #os.system(command)
+    os.system(command)

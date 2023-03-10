@@ -4,12 +4,12 @@ This script gets scheduled to run by daily_noaa_fetch.py and simply selects a ra
 The message acts as a reminder to go for a walk on the beach. This script is typically scheduled to run one hour before low tide, to give plently of time to finish up and get out there!
 """
 
-import time
-import telegram
-import random
 import asyncio
 import fetch_secrets as secrets
 import inspect
+import random
+import telegram
+import time
 
 
 messages = ["The tide will be low an hour! Great time to go for a walk",
