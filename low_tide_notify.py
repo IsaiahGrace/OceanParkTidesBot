@@ -9,6 +9,7 @@ import telegram
 import random
 import asyncio
 import fetch_secrets as secrets
+import inspect
 
 
 messages = ["The tide will be low an hour! Great time to go for a walk",
@@ -92,14 +93,15 @@ messages = ["The tide will be low an hour! Great time to go for a walk",
             ]
 
 async def main():
-    print(time.ctime())
-
     message = random.choice(messages)
     token = secrets.get_token()
     chat_id = secrets.get_chat_id()
 
     bot = telegram.Bot(token=token)
-    await bot.sendMessage(chat_id=chat_id, text=message)
+    if inspect.iscoroutinefunction(bot.sendMessage):
+        await bot.sendMessage(chat_id=chat_id, text=message)
+    else:
+        bot.sendMessage(chat_id=chat_id, text=message)
     print(message)
 
 if __name__ == "__main__":

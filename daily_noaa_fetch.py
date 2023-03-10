@@ -14,8 +14,8 @@ from astral.sun import sun
 import os
 import sys
 
+
 today = datetime.datetime.today()
-print("Tide data for:", today.ctime())
 
 # NOAA Data
 basic_info = "https://tidesandcurrents.noaa.gov/api/datagetter?date=today&product=predictions&datum=mllw&interval=hilo&format=json&units=metric&time_zone=lst_ldt&station="

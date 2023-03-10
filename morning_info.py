@@ -10,6 +10,7 @@ import random
 import json
 import asyncio
 import fetch_secrets as secrets
+import inspect
 
 
 messages = ["Good morning! Here are the low tides today.",
@@ -64,8 +65,6 @@ def get_message():
 
 
 async def main():
-    print(time.ctime())
-
     # Load today's tide times from the json file. The daily_noaa_fetch.py script updates this file daily at 3am.
     with open("/tmp/tides_today.json", "r", encoding="utf-8") as f:
         tides = json.load(f)
@@ -103,7 +102,10 @@ async def main():
     chat_id = secrets.get_chat_id()
 
     bot = telegram.Bot(token=token)
-    await bot.sendMessage(chat_id=chat_id, text=message)
+    if inspect.iscoroutinefunction(bot.sendMessage):
+        await bot.sendMessage(chat_id=chat_id, text=message)
+    else:
+        bot.sendMessage(chat_id=chat_id, text=message)
 
     print(message)
 
