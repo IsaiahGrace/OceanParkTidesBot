@@ -4,4 +4,6 @@ Wants=network-online.target
 
 [Service]
 Type=simple
+Restart=on-failure
+RestartSec=30min
 ExecStart=/home/isaiah/OceanParkTidesBot/daily_noaa_fetch.py

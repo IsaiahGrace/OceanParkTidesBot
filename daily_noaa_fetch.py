@@ -20,8 +20,6 @@ today = datetime.datetime.today()
 # NOAA Data
 basic_info = "https://tidesandcurrents.noaa.gov/api/datagetter?date=today&product=predictions&datum=mllw&interval=hilo&format=json&units=metric&time_zone=lst_ldt&station="
 
-adv_info = "https://tidesandcurrents.noaa.gov/api/datagetter?date=today&product=predictions&datum=mllw&format=json&units=metric&time_zone=lst_ldt&station="
-
 station_id = "8418557"
 
 # Get the data from NOAA
@@ -54,8 +52,13 @@ for time in times:
 
     # If we ask for predictions after the last low/high of the day, noaa will give us tomorrow"s data
     if day > today.day:
-        print("fetched tides for tomorrow, oops")
+        print("Fetched tides for tomorrow, oops!")
         continue
+
+    # Systemd will restart this service after 30mins, so hopefully next time we'll get today's data.
+    if day < today.day:
+        print("Fetched tides for yesterday, oops!")
+        exit(1)
 
     notify_time = datetime.datetime(
         year,
@@ -67,29 +70,26 @@ for time in times:
 
     # Now, filter out the low tides that occur before dawn and after dusk
     if sun_times["dawn"] < notify_time < sun_times["dusk"]:
-        print("low tide during sunlight!", notify_time)
+        print("Low tide during sunlight!", notify_time)
     else:
-        print("low tide during darkness.", notify_time)
+        print("Low tide during darkness.", notify_time)
         continue
 
     # Check to make sure that the low tide is in the future
     if notify_time < datetime.datetime.now(timezone):
-        print("low tide in the past!")
+        print("Low tide in the past!")
         continue
 
     # We want to notify Dad 60 minutes BEFORE low tide
     notify_times.append(str(int((notify_time - datetime.timedelta(minutes=60)).timestamp())))
-
-
-# Use at to schedule the daily morning report to dad
-morning_info = sun_times["dawn"] + datetime.timedelta(hours=1)
 
 # Write the tide data to a file so other scripts can access the info
 with open("/tmp/tides_today.json", "w", encoding="utf-8") as f:
     json.dump(times, f)
 
 # Schedule a morning message for one hour after dawn to preview low tide times for today
-command = "systemd-run --on-calendar=@" + str(int(morning_info.timestamp())) + " --unit OPTB_morning_info.service"
+morning_info_time = int((sun_times["dawn"] + datetime.timedelta(hours=1)).timestamp())
+command = "systemd-run --on-calendar=@" + str(morning_info_time) + " --unit OPTB_morning_info.service"
 print(command)
 os.system(command)
 
@@ -98,5 +98,5 @@ if notify_times:
     print(command)
     os.system(command)
 else:
-    print("No low tides in the future daylight hours today")
+    print("No low tides in the future daylight hours today.")
 
