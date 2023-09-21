@@ -32,7 +32,7 @@ def thanksgiving_day(year_input):
 def get_message():
     message = random.choice(messages)
 
-    # Give some special messges on special days:
+    # Give some special messages on special days:
     ctime = time.ctime().split()
 
     today = {"day": ctime[2],
@@ -59,7 +59,7 @@ def get_message():
 
     # Special message for the first day of spring
     if today["month"] == "Mar" and today["day"] == "20":
-        message = "Today is the first day of sping (probably, turns out this is hard to predict...)"
+        message = "Today is the first day of spring (probably, turns out this is hard to predict...)"
 
     return message
 

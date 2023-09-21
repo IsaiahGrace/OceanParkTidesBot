@@ -3,6 +3,5 @@ Description=Ocean Park Tides Bot low tide notification.
 Wants=network-online.target
 
 [Service]
-Type=simple
 User=isaiah
 ExecStart=/home/isaiah/OceanParkTidesBot/low_tide_notify.py

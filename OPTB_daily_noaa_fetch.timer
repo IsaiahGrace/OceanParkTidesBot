@@ -2,7 +2,7 @@
 Description=Trigger the Ocean Park Tides Bot daily NOAA data fetch daily at 3am.
 
 [Timer]
-OnCalendar=*-*-* 3:00:00
+OnCalendar=03:00
 
 [Install]
 WantedBy=timers.target

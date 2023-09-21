@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 """
 This script gets scheduled to run by daily_noaa_fetch.py and simply selects a random message and sends it to the Telegram chat.
-The message acts as a reminder to go for a walk on the beach. This script is typically scheduled to run one hour before low tide, to give plently of time to finish up and get out there!
+The message acts as a reminder to go for a walk on the beach. This script is typically scheduled to run one hour before low tide, to give plenty of time to finish up and get out there!
 """
 
 import asyncio
@@ -9,7 +9,6 @@ import fetch_secrets as secrets
 import inspect
 import random
 import telegram
-import time
 
 
 messages = ["The tide will be low an hour! Great time to go for a walk",
@@ -90,7 +89,9 @@ messages = ["The tide will be low an hour! Great time to go for a walk",
             "Ocean is more ancient than the mountains and freighted with the memories and the dreams of Time.\n    - H. P. Lovecraft",
             "How inappropriate to call this planet Earth when it is clearly Ocean.\n    - Arthur C. Clarke",
             "The three great elemental sounds in nature are the sound of rain, the sound of wind in a primeval wood, and the sound of outer ocean on a beach.\n    - Henry Beston",
+            "Ocean Park is nice.",
             ]
+
 
 async def main():
     message = random.choice(messages)
@@ -104,6 +105,6 @@ async def main():
         bot.sendMessage(chat_id=chat_id, text=message)
     print(message)
 
+
 if __name__ == "__main__":
     asyncio.run(main())
-
