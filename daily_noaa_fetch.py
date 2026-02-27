@@ -55,7 +55,8 @@ for time in times:
     low_tide_time = datetime.datetime(year, month, day, hour, minute, tzinfo=timezone)
 
     # Now, filter out the low tides that occur before dawn and after dusk.
-    if sun_times["dawn"] < low_tide_time < sun_times["dusk"]:
+    # Dad has requested an extra buffer after dusk, as he likes to walk in the evening.
+    if sun_times["dawn"] < low_tide_time < sun_times["dusk"] + datetime.timedelta(hours=2):
         print("Low tide during sunlight.", low_tide_time)
     else:
         print("Low tide during darkness.", low_tide_time)
@@ -84,7 +85,7 @@ os.system(command)
 
 # If there are any low tides worth notifying, schedule them as well.
 if notify_times:
-    command = "systemd-run --on-calendar=@" + ',@'.join(notify_times) + " --unit OPTB_low_tide_notify.service"
+    command = "systemd-run --on-calendar=@" + ",@".join(notify_times) + " --unit OPTB_low_tide_notify.service"
     print(command)
     os.system(command)
 else:
