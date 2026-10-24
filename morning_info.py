@@ -5,13 +5,14 @@ This publishes a message to the Telegram chat previewing the low tide times, as 
 """
 
 import asyncio
-import fetch_secrets as secrets
 import inspect
 import json
 import random
-import telegram
 import time
 
+import telegram
+
+import fetch_secrets as secrets
 
 messages = ["Good morning! Here are the low tides today.",
             "Cross the river by feeling the stones. Low tides today:",

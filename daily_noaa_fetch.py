@@ -5,14 +5,15 @@ Downloads low tide times from NOAA and calculates daylight hours.
 Uses systemd transient timers to schedule the morning briefing and the walk-time reminders.
 """
 
-import astral
-import astral.sun
 import datetime
 import json
 import os
-import requests
 import zoneinfo
 
+import requests
+
+import astral
+import astral.sun
 
 # Get the tide prediction data from NOAA.
 basic_info = "https://tidesandcurrents.noaa.gov/api/datagetter?date=today&product=predictions&datum=mllw&interval=hilo&format=json&units=metric&time_zone=lst_ldt&station="

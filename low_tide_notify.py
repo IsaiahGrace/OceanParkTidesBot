@@ -5,11 +5,12 @@ The message acts as a reminder to go for a walk on the beach. This script is typ
 """
 
 import asyncio
-import fetch_secrets as secrets
 import inspect
 import random
+
 import telegram
 
+import fetch_secrets as secrets
 
 messages = ["The tide will be low an hour! Great time to go for a walk",
             "Low tide's in one hour!",
