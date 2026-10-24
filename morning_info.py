@@ -41,10 +41,10 @@ def get_message():
              "year": ctime[4]}
 
     # Override the message if it's someones birthday!
-    people = secrets.get_birthdays()
-    for person in people:
-        if today["day"] == person["day"] and today["month"] == person["month"]:
-            message = "Happy Birthday " + person["name"] + "! I hope you enjoy a nice walk on the beach!"
+    # people = secrets.get_birthdays()
+    # for person in people:
+    #     if today["day"] == person["day"] and today["month"] == person["month"]:
+    #         message = "Happy Birthday " + person["name"] + "! I hope you enjoy a nice walk on the beach!"
 
     # Special message for Thanksgiving
     if today["month"] == "Nov" and today["day"] == thanksgiving_day(today["year"]):
