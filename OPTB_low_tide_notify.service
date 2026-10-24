@@ -4,4 +4,5 @@ Wants=network-online.target
 
 [Service]
 User=isaiah
-ExecStart=/home/isaiah/OceanParkTidesBot/low_tide_notify.py
+WorkingDirectory=/home/isaiah/OceanParkTidesBot
+ExecStart=/usr/bin/uv run /home/isaiah/OceanParkTidesBot/low_tide_notify.py

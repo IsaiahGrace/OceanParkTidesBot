@@ -3,6 +3,8 @@ Description=Ocean Park Tides Bot daily NOAA data fetch.
 Wants=network-online.target
 
 [Service]
+User=isaiah
+WorkingDirectory=/home/isaiah/OceanParkTidesBot
+ExecStart=/usr/bin/uv run /home/isaiah/OceanParkTidesBot/daily_noaa_fetch.py
 Restart=on-failure
 RestartSec=30min
-ExecStart=/home/isaiah/OceanParkTidesBot/daily_noaa_fetch.py
